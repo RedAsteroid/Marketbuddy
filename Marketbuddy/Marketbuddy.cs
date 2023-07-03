@@ -44,7 +44,8 @@ namespace Marketbuddy
 
                 Common.Dalamud.CommandManager.AddHandler(commandName, new CommandInfo(OnCommand)
                 {
-                    HelpMessage = "Show plugin configuration window."
+                    HelpMessage = "开启插件设置窗口."
+                    //Show plugin configuration window
                 });
 
                 PluginInterface.UiBuilder.Draw += DrawUi;

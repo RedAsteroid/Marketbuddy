@@ -17,14 +17,12 @@ namespace Marketbuddy
         #region Sigs, Hooks & Delegates declaration
 
         private readonly string AddonItemSearchResult_ReceiveEvent_Signature =
-            "48 8B C4 53 56 48 81 EC ?? ?? ?? ?? 48 89 68 08 BE";
-
+            "4C 8B DC 53 56 48 81 EC ?? ?? ?? ?? 49 89 6B 08";  
         private readonly string AddonRetainerSell_OnSetup_Signature =
             "48 89 5C 24 ?? 55 56 57 48 83 EC 50 4C 89 64 24";
 
         private readonly string AddonItemSearchResult_OnSetup_Signature =
-            "40 53 57 41 56 48 81 EC ?? ?? ?? ?? 48 8B 05 ?? ?? ?? ?? 48 33 C4 48 89 84 24 ?? ?? ?? ?? 48 89 AC 24";
-
+            "40 53 41 56 48 81 EC ?? ?? ?? ?? 48 8B 05 ?? ?? ?? ?? 48 33 C4 48 89 84 24 ?? ?? ?? ?? 48 89 AC 24";   
         private readonly string AddonRetainerSellList_OnSetup_Signature =
             "40 53 55 56 57 41 56 48 81 EC ?? ?? ?? ?? 48 8B 05 ?? ?? ?? ?? 48 33 C4 48 89 84 24 ?? ?? ?? ?? 48 8B F9 49 8B F0 49 8D 48 10";
 
@@ -127,7 +125,7 @@ namespace Marketbuddy
                 if (int.TryParse(cbValue, out var priceValue) && priceValue > 0)
                     SetPrice(priceValue);
                 else
-                    ChatGui.PrintError("[Marketbuddy] Clipboard does not contain a valid price");
+                    ChatGui.PrintError("[Marketbuddy] 剪切板中不存在一个有效的价格！"); //Clipboard does not contain a valid price
             }
             else if (conf.AutoOpenComparePrices && !conf.HoldShiftToStop ||
                      conf.AutoOpenComparePrices && conf.HoldShiftToStop && !Keys[VirtualKey.SHIFT] ||
@@ -200,7 +198,8 @@ namespace Marketbuddy
                     catch (Exception e)
                     {
                         ChatGui.PrintError(
-                            "[Marketbuddy] Error getting price per item or setting the new price. Use /xllog to see the error and submit it in a github issue");
+                            "[Marketbuddy] 获取每件物品价格或设置新价格时发生错误，请使用 /xllog 查看错误并提交至 Github Issue 。"); 
+                        //Error getting price per item or setting the new price. Use /xllog to see the error and submit it in a github issue
                         PluginLog.Error(e, "Error getting price per item or setting the new price");
                     }
 
