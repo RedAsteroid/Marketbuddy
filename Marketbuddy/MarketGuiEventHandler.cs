@@ -9,7 +9,8 @@ using Dalamud.Plugin.Services;
 using FFXIVClientStructs.Attributes;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using ImGuiNET;
+using Dalamud.Bindings.ImGui;
+using Dalamud.Game.NativeWrapper;
 using Marketbuddy.Common;
 using Marketbuddy.Structs;
 using static Marketbuddy.Common.Dalamud;
@@ -54,7 +55,7 @@ namespace Marketbuddy
         private void OnItemSearchResultSetup(AddonEvent type, AddonArgs args)
         {
             DebugMessage("AddonItemSearchResult.OnSetup");
-            var addon = args.Addon;
+            IntPtr addon = args.Addon;
 
             if (!IPCManager.IsLocked)
             {
@@ -80,7 +81,7 @@ namespace Marketbuddy
         private void OnRetainerSellSetup(AddonEvent type, AddonArgs args)
         {
             DebugMessage("AddonRetainerSell.OnSetup");
-            var addon = args.Addon;
+            IntPtr addon = args.Addon;
 
             if (!IPCManager.IsLocked)
             {
@@ -90,7 +91,7 @@ namespace Marketbuddy
                     if (int.TryParse(cbValue, out var priceValue) && priceValue > 0)
                         SetPrice(priceValue);
                     else
-                        ChatGui.PrintError("[Marketbuddy] Clipboard does not contain a valid price");
+                        ChatGui.PrintError("[Marketbuddy] 剪切板中未包含一个有效的价格");
                 }
                 else if (conf.AutoOpenComparePrices && !conf.HoldShiftToStop ||
                          conf.AutoOpenComparePrices && conf.HoldShiftToStop && !Keys[VirtualKey.SHIFT] ||
@@ -137,7 +138,7 @@ namespace Marketbuddy
                         catch (Exception e)
                         {
                             ChatGui.PrintError(
-                                "[Marketbuddy] Error getting price per item or setting the new price. Use /xllog to see the error and submit it in a github issue");
+                                "[Marketbuddy] 获取单价或设置新价格时出错。请使用 /xllog 查看错误，并在 GitHub issue 中提交。");
                             Log.Error(e, "Error getting price per item or setting the new price");
                         }
             }

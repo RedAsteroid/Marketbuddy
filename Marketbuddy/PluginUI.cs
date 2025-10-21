@@ -3,7 +3,7 @@ using System.Numerics;
 using Dalamud.Interface;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Utility;
-using ImGuiNET;
+using Dalamud.Bindings.ImGui;
 
 namespace Marketbuddy
 {
@@ -58,6 +58,7 @@ namespace Marketbuddy
                     ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoScrollWithMouse |
                     ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoBackground))
             {
+                ImGui.Indent(10);
                 if (ImGui.Checkbox("限制最大堆叠数为 ", ref conf.UseMaxStackSize))
                     conf.Save();
 
@@ -67,7 +68,7 @@ namespace Marketbuddy
                     MaximumStackSizeChanged();
 
                 ImGui.SameLine();
-                ImGui.Dummy(new(20, 1));
+                ImGui.Dummy(new(10, 1)); // 适配界面宽度
 
                 ImGui.SameLine();
                 ImGui.SetNextItemWidth(30);
@@ -85,7 +86,7 @@ namespace Marketbuddy
                 ImGui.SetNextItemWidth(65); // 适配中文宽度（默认50）
                 DrawUndercutTypeSelector();
                 ImGui.SameLine();
-                ImGui.Text("undercut");
+                ImGui.Text("压价金额");
             }
 
             ImGui.PopStyleVar(5);
@@ -96,7 +97,7 @@ namespace Marketbuddy
         {
             if (!SettingsVisible) return;
 
-            if (!ImGui.Begin("Marketbuddy config", ref _settingsVisible,
+            if (!ImGui.Begin("Marketbuddy 设置", ref _settingsVisible,
                     ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoScrollbar |
                     ImGuiWindowFlags.NoScrollWithMouse | ImGuiWindowFlags.AlwaysAutoResize))
             {
@@ -107,7 +108,7 @@ namespace Marketbuddy
             if(IPCManager.Locks.Count > 0)
             {
                 ImGui.PushStyleColor(ImGuiCol.Text, ImGuiColors.DalamudRed);
-                ImGuiHelpers.SafeTextWrapped($"已收到来自这些插件的锁定命令，Marketbuddy 已完全停止运行: ");
+                ImGui.TextWrapped($"已收到来自这些插件的锁定命令，Marketbuddy 已完全停止运行: ");
                 ImGui.TextUnformatted($"{string.Join("\n", IPCManager.Locks)}");
                 if(ImGui.Button("解除锁定"))
                 {
@@ -117,16 +118,11 @@ namespace Marketbuddy
             }
 
             if (ImGui.Checkbox("修改价格时自动打开市场", ref conf.AutoOpenComparePrices))
-            {
-                if (!conf.AutoOpenComparePrices)
-                    conf.HoldShiftToStop = false;
                 conf.Save();
-            }
-
 
             DrawNestIndicator(1);
             if (ImGui.Checkbox(
-                    $"Holding SHIFT {(conf.AutoOpenComparePrices ? "阻止上述操作" : "执行上述操作")}",
+                    $"按住 SHIFT {(conf.AutoOpenComparePrices ? "阻止上述操作" : "执行上述操作")}",
                     ref conf.HoldShiftToStop))
                 conf.Save();
 
@@ -268,7 +264,7 @@ namespace Marketbuddy
 
             var color = ImGui.GetStyle().Colors[(int)ImGuiCol.Text];
 
-            ImGui.TextColored(new Vector4(color.X, color.Y, color.Z, 0.9f), "\u2002\u2514");
+            ImGui.TextColored(new Vector4(color.X, color.Y, color.Z, 0.9f), "  \u2514");
             //ImGui.TextColored(new Vector4(229f / 255f, 57f / 255f, 57f / 255f, 1f), "\u2002\u2514");
             ImGui.SameLine();
         }
