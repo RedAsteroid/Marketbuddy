@@ -31,6 +31,8 @@ Holding SHIFT prevents some automation, but you're better off just disabling wha
 
 ## Changelog
 
+* 0.2.4.1
+  * update for api14 and 7.4 (thanks Cyenia)
 * 0.2.4.0
   * update for api13 (thanks PhoenixtheII)
   * persist option to open current prices list when holding SHIFT (thanks PhoenixtheII)

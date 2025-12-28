@@ -116,7 +116,7 @@ namespace Marketbuddy
         {
             var eventArgs = (AddonReceiveEventArgs)args;
             var eventType = eventArgs.AtkEventType;
-            var nodeParam = eventArgs.Data;
+            var nodeParam = eventArgs.AtkEventData;
             if (!IPCManager.IsLocked)
             {
                 if (conf.AutoInputNewPrice || conf.SaveToClipboard)
